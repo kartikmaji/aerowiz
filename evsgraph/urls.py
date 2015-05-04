@@ -6,9 +6,10 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', 'realgraph.views.home', name='home'),
-     url(r'^graph/', 'realgraph.views.graph', name='graph'),
+    url(r'^$', 'realgraph.views.home', name='home'),
+    url(r'^graph/', 'realgraph.views.graph', name='graph'),
     # url(r'^evsgraph/', include('evsgraph.foo.urls')),
+    url(r'^airquality/', 'realgraph.views.airquality', name='airquality'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

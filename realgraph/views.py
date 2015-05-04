@@ -8,11 +8,15 @@ from django.template import RequestContext, loader
 from django.shortcuts import render
 import urllib2
 import json
+from pprint import pprint
+
 def graph(request):
 	#x = [1,2,3,4,5]
 	#y = [5,2,6,0,7]
 	#y = ""
-	response = urllib2.urlopen("http://192.168.43.168:8080/")
+	#response = urllib2.urlopen("http://192.168.43.168:8080/")
+	response = urllib2.urlopen("http://aqi.iitk.ac.in:9000/metrics/station/893?d=03%2F05%2F2015&h=23")
+	#print response.read()
 	#response = urllib2.urlopen("http://0.0.0.0:8080/data.txt")
 	data = response.read()
 	#print "y"
@@ -51,3 +55,22 @@ def graph(request):
 
 def home(request):
 	return render(request,"index.html",{})
+
+def airquality(request):
+	response = urllib2.urlopen("http://aqi.iitk.ac.in:9000/metrics/station/893?d=04%2F05%2F2015&h=23")
+	datajson = response.read()
+	datajson = json.loads(datajson)
+	save_path = '/home/kartik/Documents/Projects/evsgraph/static/static/'
+	for gas_data in datajson["metrics"]:
+		###print gas_data["name"]
+		# var rawFile = new XMLHttpRequest();
+		# rawFile.open("GET", gas_data["name"]+".txt", false);
+		filename = gas_data["name"]+".txt" 
+		#print filename
+		fo = open(save_path+filename, "wb")
+		for i in gas_data["data"]:
+			###print str(i["value"])
+			fo.write(str(i["value"]))
+			fo.write("\n")	
+		fo.close()
+	return render(request,"Clients.html",{})
